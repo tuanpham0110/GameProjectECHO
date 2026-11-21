@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b036596e2ade6794c81a8c8c4d7b0729, type: 3}
+  m_Name: Hunter_Office_Profile
+  m_EditorClassIdentifier: Echo.Runtime::ProjectEcho.HunterProfile
+  patrol:
+    speedRatio: 0.8
+    sight: 8
+    angle: 90
+    hearing: 0
+    reaction: 0.35
+    searchSeconds: 3
+  search:
+    speedRatio: 1
+    sight: 8
+    angle: 110
+    hearing: 0
+    reaction: 0.25
+    searchSeconds: 5
+  hunt:
+    speedRatio: 1.1
+    sight: 8
+    angle: 130
+    hearing: 15
+    reaction: 0.16
+    searchSeconds: 7
+  lockdown:
+    speedRatio: 1.2
+    sight: 8
+    angle: 150
+    hearing: 15
+    reaction: 0.08
+    searchSeconds: 9
+  captureRange: 1.5
+  eyeHeight: 1.55
+  investigateSeconds: 4
+  repathSeconds: 0.22
+  stuckSeconds: 1.6
+  recoverySeconds: 0.45
+  signalUncertainty: 1.25
+  occludedHearing: 0.55
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295

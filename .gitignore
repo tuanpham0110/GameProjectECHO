@@ -1,0 +1,68 @@
+# ===== Unity: thư mục do Editor tự sinh (không bao giờ commit) =====
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Bản build / backup thủ công của dự án
+/[Bb]ackups/
+
+# Asset Store tools
+/[Aa]ssets/AssetStoreTools*
+
+# Addressables / Streaming build cache
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Plugin Burst / Gradle sinh tự động
+/[Aa]ssets/Plugins/Editor/JetBrains*
+.gradle/
+ExportedObj/
+
+# ===== IDE: file project/solution do Unity tự tạo lại =====
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+.vs/
+.idea/
+.vscode/
+.consulo/
+*.DotSettings.user
+
+# Meta file của các file đã bị ignore
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# ===== Build output / crash / log =====
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*_BurstDebugInformation_DoNotShip/
+sysinfo.txt
+crashlytics-build.properties
+*.log
+
+# ===== Hệ điều hành =====
+.DS_Store
+Thumbs.db
+Desktop.ini

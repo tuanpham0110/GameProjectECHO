@@ -1,0 +1,7 @@
+{
+  "name": "Echo.PlayMode.Tests",
+  "rootNamespace": "ProjectEcho.Tests",
+  "references": ["Echo.Runtime", "Unity.AI.Navigation"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

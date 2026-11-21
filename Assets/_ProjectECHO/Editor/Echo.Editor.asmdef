@@ -1,0 +1,6 @@
+{
+  "name": "Echo.Editor",
+  "rootNamespace": "ProjectEcho.Editor",
+  "includePlatforms": ["Editor"],
+  "references": ["Echo.Runtime", "Unity.InputSystem", "Unity.AI.Navigation", "Unity.Cinemachine", "UnityEngine.UI"]
+}

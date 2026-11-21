@@ -1,0 +1,8 @@
+{
+  "name": "Echo.EditMode.Tests",
+  "rootNamespace": "ProjectEcho.Tests",
+  "references": ["Echo.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": false
+}

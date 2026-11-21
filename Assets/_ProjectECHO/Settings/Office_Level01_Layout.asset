@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d3818169fd64e279adf265b1e15f572, type: 3}
+  m_Name: Office_Level01_Layout
+  m_EditorClassIdentifier: Echo.Runtime::ProjectEcho.LevelLayout
+  environment: 1
+  modelFolder: Assets/_ProjectECHO/Art/Environments/Office
+  modelName: Map office (Tong hop)
+  walkBounds:
+    serializedVersion: 2
+    x: -24.6
+    y: -59
+    width: 59.5
+    height: 68.6
+  boundaryHeight: 4.7
+  minColliderSize: 0.3
+  maxColliderBottom: 2.3
+  collisionExclusions:
+  - light pipe
+  - Neon
+  - LED
+  - spill
+  - luminous
+  - Glow
+  - VentStripe
+  playerSpawn:
+    position: {x: -12, y: 0, z: -38.5}
+    yaw: 0
+  hunterSpawn:
+    position: {x: 24.5, y: 0, z: -9.8}
+    yaw: 270
+  relay:
+    position: {x: 23.2, y: 0, z: -28.6}
+    yaw: 180
+  exit:
+    position: {x: -15.9, y: 0, z: -40.4}
+    yaw: 180
+  data:
+  - id: office-data-01
+    displayName: Research File
+    position: {x: -9.5, y: 0, z: 7.4}
+  - id: office-data-02
+    displayName: Memory Fragment
+    position: {x: 14.4, y: 0, z: -5.4}
+  - id: office-data-03
+    displayName: Clone ID
+    position: {x: -12, y: 0, z: -24}
+  - id: office-data-04
+    displayName: DNA Sample
+    position: {x: -5.5, y: 0, z: -44}
+  - id: office-data-05
+    displayName: Access Key
+    position: {x: 4.5, y: 0, z: -42.5}
+  - id: office-data-06
+    displayName: Archive Fragment
+    position: {x: 18.5, y: 0, z: -38.6}
+  supports:
+  - item: 0
+    position: {x: -3, y: 0, z: -12}
+  - item: 0
+    position: {x: 8, y: 0, z: -37}
+  - item: 1
+    position: {x: -6, y: 0, z: -38}
+  - item: 1
+    position: {x: 10.5, y: 0, z: 1.5}
+  waypoints:
+  - {x: 14.3, y: 0, z: 0}
+  - {x: 10, y: 0, z: -1}
+  - {x: 1, y: 0, z: -1.5}
+  - {x: -4, y: 0, z: -6}
+  - {x: -11, y: 0, z: -12}
+  - {x: -4, y: 0, z: -27}
+  - {x: -7, y: 0, z: -38}
+  - {x: 8, y: 0, z: -36}
+  - {x: 14, y: 0, z: -33}
+  - {x: 24, y: 0, z: -27.3}
+  - {x: 30.5, y: 0, z: -18.9}
+  - {x: 28, y: 0, z: -9.8}
+  - {x: 22.2, y: 0, z: -4}
+  hideSpots:
+  - inside: {x: -4, y: 0.12, z: -31.1}
+    outside: {x: -5.1, y: 0, z: -31.1}
+    absolute: 1
+    buildLocker: 0
+  - inside: {x: -4, y: 0.12, z: -33.88}
+    outside: {x: -5.1, y: 0, z: -33.88}
+    absolute: 1
+    buildLocker: 0
+  - inside: {x: 13.41, y: 0.12, z: 5.82}
+    outside: {x: 13.41, y: 0, z: 4.7}
+    absolute: 1
+    buildLocker: 0
+  - inside: {x: -10.75, y: 0, z: -18.6}
+    outside: {x: -9.9, y: 0, z: -18.6}
+    absolute: 0
+    buildLocker: 0
+  - inside: {x: 6.05, y: 0, z: -21.4}
+    outside: {x: 5.2, y: 0, z: -21.4}
+    absolute: 0
+    buildLocker: 0
+  doors:
+  - name: Meeting Room Side Door
+    modelPaths:
+    - Door handle.002
+    center: {x: -2.16, y: 0, z: -0.75}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 0
+    locked: 0
+  - name: Server Room North Door
+    modelPaths:
+    - Door handle.004
+    center: {x: 20.34, y: 0, z: -8.63}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 0
+    locked: 0
+  - name: Server Room West Door
+    modelPaths:
+    - Cube.007
+    - Cube.008
+    center: {x: 16.27, y: 0, z: -10.91}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 0
+    locked: 0
+  - name: Meeting Room Door
+    modelPaths:
+    - Cube.003
+    - Cube.004
+    center: {x: -9.28, y: 0, z: -3.72}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Workspace North Door
+    modelPaths:
+    - Cube.002
+    - Cube.005
+    center: {x: -0.155, y: 0, z: -3.72}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Records Room Door
+    modelPaths:
+    - Cube.014
+    - Cube.015
+    center: {x: 12.34, y: 0, z: 1.69}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Server Room South Door
+    modelPaths:
+    - Cube.025
+    - Cube.026
+    center: {x: 17.785, y: 0, z: -31.57}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Annex West Door
+    modelPaths:
+    - Cube.027
+    - Cube.028
+    center: {x: 19.945, y: 0, z: -33.11}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Annex South Door
+    modelPaths:
+    - Cube.029
+    - Cube.030
+    center: {x: 22.69, y: 0, z: -35.8}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Plant Room Door
+    modelPaths:
+    - Cube.035
+    - Cube.036
+    center: {x: 21.075, y: 0, z: -49.5}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Deposit Room Door
+    modelPaths:
+    - Cube.037
+    - Cube.038
+    center: {x: 11.235, y: 0, z: -47.85}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: South Wing Door
+    modelPaths:
+    - Cube.039
+    - Cube.040
+    center: {x: 5.64, y: 0, z: -40.28}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Technical Room Door
+    modelPaths:
+    - Cube.041
+    - Cube.042
+    center: {x: 12.925, y: 0, z: -43.4}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
+  - name: Generator Room Door
+    modelPaths:
+    - Cube.043
+    - Cube.044
+    center: {x: 12.925, y: 0, z: -51.86}
+    size: {x: 0, y: 0, z: 0}
+    startsOpen: 1
+    locked: 0
