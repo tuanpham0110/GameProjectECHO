@@ -12,6 +12,10 @@
 # Bản build / backup thủ công của dự án
 /[Bb]ackups/
 
+# Tài liệu PDF (không đẩy lên GitHub)
+*.pdf
+*.pdf.meta
+
 # Asset Store tools
 /[Aa]ssets/AssetStoreTools*
 
