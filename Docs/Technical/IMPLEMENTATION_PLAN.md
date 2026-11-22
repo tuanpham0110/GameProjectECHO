@@ -12,17 +12,19 @@ Cập nhật 2026-11-22 (chiều). Kết quả kiểm thử lấy từ Unity 600
 | 6. Kỹ năng, vật phẩm, UI | Burst Sprint, Dash, Hunter Sensor, cooldown, EMP, Stun, giáp, Scanner, HUD, cảnh báo Hunter, Relay progress, timer, pause, menu, kết quả. **Hướng dẫn ba chặng** (`MissionGuide`): briefing 3 bước + phím, dòng mục tiêu, chỉ đường NavMesh tới Relay/cổng, Scanner dò tín hiệu dữ liệu, cột tín hiệu trên gói dữ liệu, màn hình Relay đổi màu theo chặng, thông báo khi rời/vào vùng Relay và khi bị bắt làm hủy truyền. | Xong ở mức chức năng | Ảnh UI từ bản build trong `Playtest/` |
 | 7. Playtest vertical slice | Bot input thật (bàn phím/chuột ảo Input System) chơi từ menu tới cổng, bị bắt, hồi sinh, nhặt lại, pause, lượt mới. Đo hiệu năng trong bản build (`-echoPerf`). | Xong phần tự động, chờ người chơi thật | `Playtest/Office_Level01_Playtest.md` |
 | 8. Kiểm thử và build | EditMode 20/20, PlayMode 10/10, build Windows x64. | Xong | `Builds/Validation/` |
+| 9. Tối ưu render | Profile bằng FrameTimingManager + tắt thử từng yếu tố. Windows dùng Direct3D 11, GPU Resident Drawer, SSAO nguồn Depth/AfterOpaque. p95 ở 3 góc nặng giảm 63–74 %. | Xong | `Playtest/Office_Level01_PerfOptimization.md` |
 
 ## Kết quả kiểm thử gần nhất
 
 - EditMode **20/20 đạt**: thêm 3 test hướng dẫn chặng (thu thập → Relay → truyền → cổng, bị bắt khi truyền quay về chặng 1, briefing lấy số liệu từ `LevelRules`). Test layout kiểm tra thêm việc loại trừ lá chậu cây khỏi collision.
-- PlayMode **10/10 đạt** (97 s):
+- PlayMode **10/10 đạt** (179 s, lần chạy sau tối ưu render):
   - Sandbox: CharacterController dừng ở tường, Hunter không nhìn xuyên tường, tuần tra và tìm đường vòng, vòng nhiệm vụ đầy đủ.
   - Office: đứng trên sàn thật, bị vách phòng server chặn, không rơi khỏi mép sàn. Hunter không nhìn xuyên vách thật, NavMesh nối Hunter Spawn → Relay/Player Spawn, Hunter tự mở cửa bắc phòng server. Vòng nhiệm vụ đầy đủ. **Mới:** TAY đi qua chậu cây cạnh cửa phụ phòng họp, và bot playtest bằng input thật hoàn tất lượt trên map thật.
-- Bot playtest lượt cuối: hoàn tất sau 148 s thời gian game, bị bắt 0 lần, kẹt 0 lần. Chi tiết ở `Playtest/Office_Level01_BotLog.md`.
+- Bot playtest: hoàn tất ở mọi lần chạy (148–312 s thời gian game, bị bắt 0–4 lần tùy Hunter, kẹt 0 lần). Chi tiết ở `Playtest/Office_Level01_BotLog.md`.
 - Validation Office: đường NavMesh Player Spawn → Relay 37,8 m, Relay → cổng 43,7 m, xa nhất Player Spawn → dữ liệu phòng họp 78,2 m.
 - Windows x64: `Builds/Windows/ProjectECHO.exe`, gói gửi tester `Builds/ProjectECHO_Office_Playtest_2026-11-22.zip` (82 MB, kèm `CHECKLIST_CHOI_THU.txt`, không kèm thư mục Burst debug). Bản build cũ ở `Builds/Windows-Office/` đã lỗi thời.
-- Hiệu năng (GTX 1650, 1080p cửa sổ, vSync tắt): sảnh 168 FPS / 6,0 ms, phòng server 144 FPS / 7,0 ms, hướng nặng nhất 76 FPS / 13,2 ms với 11.000 batch. Xem `Playtest/Office_Level01_Perf.md`.
+- Hiệu năng sau tối ưu (GTX 1650, 1080p cửa sổ, vSync tắt): Relay nhìn tây bắc 13,3 / 21,8 → 5,9 / 6,7 ms (TB / p95), sảnh nhìn bắc 11,4 / 18,7 → 5,2 / 6,9 ms, phòng server nhìn tây 11,7 / 22,4 → 5,3 / 5,9 ms. Vòng chạy có Hunter: p99 14,1 → 7,3 ms, không còn khung > 25 ms. Hết tuyến 2 vòng (16/16 chặng, Lockdown suốt lượt, Hunter không bắt): p95 6,3, p99 7,1 ms, 0 khung > 25 ms. Xem `Playtest/Office_Level01_PerfOptimization.md`.
+- Lần chạy gần nhất (sau khi thêm phần đo hết tuyến): EditMode 20/20, PlayMode 10/10 (118 s). Bot hoàn tất sau 148 s, bị bắt 1 lần, kẹt 0.
 
 ## Kiến trúc
 
@@ -37,11 +39,11 @@ Cập nhật 2026-11-22 (chiều). Kết quả kiểm thử lấy từ Unity 600
 - Chặng Relay ở Lockdown: đứng yên trong vùng thì bị bắt trước 20 s. Phải rời vùng rồi quay lại. Waypoint 10 cách Relay 1,5 m. Chờ người chơi thật xác nhận trước khi đổi layout hoặc profile.
 - Nhân vật TAY/Hunter vẫn là hình khối; chưa có rig, animation, âm thanh (chưa có tài nguyên).
 - Hunter chưa nhảy qua vật thấp (cần off-mesh link + animation, D14). Smoke Bomb, Decoy, cửa khóa giữ F ngoài phạm vi MVP hiện tại.
-- Hiệu năng: hướng nhìn qua văn phòng mở 6.000–11.000 batch, 2–3,3 triệu tam giác. Chưa có static batching/occlusion culling. URP giảm độ phân giải bóng đổ đèn phụ để vừa atlas 2048.
+- Hiệu năng: góc nặng nhất giờ bị giới hạn ở GPU (khoảng 5,5 ms, 1,9 triệu tam giác). Chưa có occlusion Umbra/static batching (cần static flag trên 6.545 node FBX). URP giảm độ phân giải bóng đổ đèn phụ để vừa atlas 2048, không ảnh hưởng frame time. Windows chỉ build Direct3D 11.
 
 ## Bước tiếp theo
 
-1. Gửi zip cho 2–3 người chơi mới theo `Playtest/Checklist_NguoiChoiMoi.md`, chỉnh layout/luật theo phản hồi (thời gian tìm dữ liệu, số lần bị bắt ở Relay).
-2. Tối ưu render map (static flags trên instance FBX, occlusion culling, giới hạn bóng đổ đèn). So sánh với mốc trong `Office_Level01_Perf.md` bằng cùng lệnh `-echoPerf`.
+1. Gửi zip cho 2–3 người chơi mới theo `Playtest/Checklist_NguoiChoiMoi.md`, chỉnh layout/luật theo phản hồi (thời gian tìm dữ liệu, số lần bị bắt ở Relay). Checklist không còn gợi ý luật Relay, nên câu trả lời sau khi chơi cho biết người mới có tự hiểu được từ game không.
+2. Khi thêm nội dung, đo lại bằng `-echoPerf` và so với `Playtest/Perf/r3_ban_cuoi.md`. Nếu cần giảm GPU: thử occlusion Umbra hoặc SSAO downsample.
 3. Tích hợp model/rig/animation TAY và Hunter khi có tài nguyên; thêm âm thanh bước chân, Relay, cảnh báo.
 4. Dựng Level tiếp theo bằng `LevelTarget` + `LevelLayout` mới.

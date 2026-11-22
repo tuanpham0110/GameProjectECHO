@@ -24,6 +24,9 @@ namespace ProjectEcho
             transform.SetPositionAndRotation(player.Eye, Quaternion.Euler(pitch, yaw, 0));
         }
 
+        /// <summary>Đặt hướng camera trực tiếp (PerformanceProbe lái TAY khi đo).</summary>
+        internal void SetYaw(float value) => yaw = value;
+
         public void ResetPose(Quaternion rotation)
         {
             Vector3 previous = transform.position;

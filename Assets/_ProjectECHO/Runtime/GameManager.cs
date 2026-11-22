@@ -16,7 +16,9 @@ namespace ProjectEcho
         public bool CanAct => State.Current == GameState.Playing;
         public bool CanStart => State.Current == GameState.Briefing &&
             (Confirmed != Skill.None ? Confirmed == Selected && IsUnlocked(Confirmed) : !HasUnlockedSkill());
-        public bool CanBeCaptured => CanAct && spawnProtection <= 0 && !level.player.IsSafelyHidden;
+        public bool CanBeCaptured => CanAct && !captureSuppressed && spawnProtection <= 0 && !level.player.IsSafelyHidden;
+        /// <summary>Chỉ <see cref="PerformanceProbe"/> dùng: Hunter vẫn đuổi nhưng không bắt, để đo hết tuyến ở Lockdown.</summary>
+        internal bool captureSuppressed;
         public string Status { get; private set; }
         public int Captures { get; private set; }
         private SaveSystem save;

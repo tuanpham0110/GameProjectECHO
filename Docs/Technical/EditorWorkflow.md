@@ -64,11 +64,18 @@ Playtest tự động bằng input thật (bàn phím/chuột ảo, Hunter thậ
 Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform PlayMode -testFilter OfficePlaythroughTests -testResults Playtest.xml
 ```
 
-Đo hiệu năng trong bản build (đo sảnh, phòng server, Relay theo 4 hướng camera; chụp UI; tự thoát sau khoảng 70 s):
+Đo hiệu năng trong bản build. Probe đo sảnh, phòng server, Relay theo 4 hướng camera rồi chạy một vòng 60 s có Hunter; ghi CPU main/render/GPU, chụp UI và ảnh kiểm tra hiển thị; tự thoát sau khoảng 2 phút:
 
 ```
-Builds\Windows\ProjectECHO.exe -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -echoPerf -echoPerfOut Builds\Validation\Perf\perf.md
+Builds\Windows\ProjectECHO.exe -monitor 1 -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -echoPerf -echoPerfOut Builds\Validation\Perf\perf.md
 ```
+
+Một lượt đo mất khoảng 4 phút và gồm ba phần:
+- 3 vị trí × 4 hướng, Hunter đứng yên.
+- Hai vòng qua 8 điểm, giữ Lockdown. Hunter đuổi nhưng không bắt (`GameManager.captureSuppressed`, chỉ probe dùng). Có số đo theo từng chặng.
+- 60 s chạy theo luật thật, có bắt và hồi sinh.
+
+`-monitor 1` giữ game trên màn hình chính. Nếu mở trên màn hình có DPI scale, cửa sổ 1080p sẽ bị phóng to (ví dụ thành 2402×1352) và số đo không so được với mốc. Thêm `-echoPerfVariant noshadows,nossao,nosmallshadows,hidesmall,gpuocclusion,ssaodepth,smallmesh=0.4` (chọn một hoặc nhiều) để tắt thử từng yếu tố khi profile. **Tools → Project ECHO → Audit Rendering** liệt kê đèn, bóng, renderer và static flag vào `Docs/Technical/Playtest/Office_Level01_RenderAudit.md`.
 
 Gói gửi tester: nén `Builds/Windows` (bỏ `ProjectECHO_BurstDebugInformation_DoNotShip`) kèm `Docs/Technical/Playtest/Checklist_NguoiChoiMoi.md`.
 

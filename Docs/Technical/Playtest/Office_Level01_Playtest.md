@@ -46,6 +46,8 @@ Khoảng cách và hướng ở chặng 2–3 tính theo đường NavMesh (hư�
 
 ## Hiệu năng (mốc cho lượt tối ưu)
 
+> Đã tối ưu sau đó: xem `Office_Level01_PerfOptimization.md`. Bảng dưới là mốc trước tối ưu (D3D12).
+
 Bản build Windows x64, 1920×1080 cửa sổ, vSync tắt, chất lượng PC, GTX 1650 (D3D12), i5-10300H. Mỗi vị trí đo 4 hướng camera, mỗi hướng 3 s.
 
 | Vị trí | FPS TB | Frame time TB | p95 | Hướng nặng nhất |
