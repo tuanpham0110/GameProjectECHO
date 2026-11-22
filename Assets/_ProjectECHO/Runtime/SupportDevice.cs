@@ -39,6 +39,7 @@ namespace ProjectEcho
                 if (InRange(hunter, position, tuning.empRadius))
                 {
                     hunter.ApplyEmp(tuning.empSeconds);
+                    level.game.Notify($"EMP kích hoạt: Hunter chậm 50% trong {tuning.empSeconds:0} s.", 3);
                     Destroy(gameObject);
                 }
                 return;
@@ -56,8 +57,11 @@ namespace ProjectEcho
             else position += step;
             transform.position = position;
             if (fuse > 0) return;
-            if (InRange(hunter, position, tuning.stunRadius))
-                hunter.ApplyStun(tuning.stunSeconds, tuning.enrageSeconds, tuning.enrageBonus);
+            bool inRange = InRange(hunter, position, tuning.stunRadius);
+            bool stunned = inRange && hunter.ApplyStun(tuning.stunSeconds, tuning.enrageSeconds, tuning.enrageBonus);
+            level.game.Notify(stunned ? $"Stun trúng: Hunter choáng {tuning.stunSeconds:0} s, sau đó nổi giận và nhanh hơn."
+                : inRange ? "Stun không có tác dụng: Hunter vừa hồi phục và đang nổi giận."
+                : "Stun nổ trượt Hunter. Tiếng nổ có thể thu hút Hunter.", 3);
             level.EmitNoise(position, 15);
             Destroy(gameObject);
         }

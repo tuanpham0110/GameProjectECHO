@@ -15,6 +15,10 @@ namespace ProjectEcho
         public Vector3? LastKnownPosition { get; private set; }
         public int Threat => level.game.Mission.Threat;
         public string NavigationIssue { get; private set; }
+        /// <summary>Thời gian còn lại của EMP (chậm 50 %) và của Enrage sau choáng, cho HUD và kiểm thử.</summary>
+        public float EmpRemaining => emp;
+        public float EnrageRemaining => enrage;
+        public float StunRemaining => Current == HunterState.Stunned ? stun : Current == HunterState.Recovery ? recovery : 0;
         private NavMeshAgent agent;
         private NavMeshPath candidatePath;
         private Vector3? goal;
@@ -126,6 +130,14 @@ namespace ProjectEcho
         private void Observe(HunterTier tier, float delta)
         {
             var player = level.player;
+            if (player.HideWitnessed)
+            {
+                // D09: Hunter đã thấy TAY vào chỗ nấp kín nên biết TAY ở đó, tới cửa tủ và lôi TAY ra.
+                IsTrackingPlayer = true;
+                LastKnownPosition = player.CurrentHide.outside.position;
+                if (Current != HunterState.Chase) Enter(HunterState.Chase, LastKnownPosition);
+                return;
+            }
             IsTrackingPlayer = !player.IsSafelyHidden &&
                 HunterPerception.HasSight(Eye, transform.forward, player.Eye, tier.sight, tier.angle, Obstacles);
             if (!IsTrackingPlayer)
@@ -444,15 +456,17 @@ namespace ProjectEcho
 
         public void ApplyEmp(float seconds) => emp = Mathf.Max(emp, seconds);
 
-        public void ApplyStun(float seconds, float fasterFor, float speedBonus)
+        /// <summary>Choáng Hunter. Trả về false khi Hunter đang hồi phục hoặc nổi giận (miễn choáng).</summary>
+        public bool ApplyStun(float seconds, float fasterFor, float speedBonus)
         {
-            if (Current == HunterState.Recovery || enrage > 0 || !agent.isOnNavMesh) return;
+            if (Current == HunterState.Recovery || enrage > 0 || !agent.isOnNavMesh) return false;
             if (Current != HunterState.Stunned) Enter(HunterState.Stunned);
             stun = Mathf.Max(stun, seconds);
             enrageDuration = fasterFor;
             enrageBonus = speedBonus;
             IsTrackingPlayer = false;
             agent.isStopped = true;
+            return true;
         }
 
         private void TickDisabled(float delta)

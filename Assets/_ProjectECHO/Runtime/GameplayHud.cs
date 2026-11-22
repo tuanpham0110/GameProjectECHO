@@ -94,7 +94,13 @@ namespace ProjectEcho
                 warning.color = new Color(1, 0.3f, 0.24f);
             }
             else if (hunter.Current is HunterState.Stunned or HunterState.Recovery)
-                warning.text = "HUNTER BỊ CHOÁNG  ·  " + warning.text;
+                warning.text = $"HUNTER BỊ CHOÁNG {Mathf.CeilToInt(hunter.StunRemaining)}s  ·  " + warning.text;
+            if (hunter.EmpRemaining > 0) warning.text = $"EMP: HUNTER CHẬM {Mathf.CeilToInt(hunter.EmpRemaining)}s  ·  " + warning.text;
+            if (hunter.EnrageRemaining > 0)
+            {
+                warning.text = $"HUNTER NỔI GIẬN {Mathf.CeilToInt(hunter.EnrageRemaining)}s  ·  " + warning.text;
+                warning.color = new Color(1, 0.3f, 0.24f);
+            }
             var player = game.level.player;
             var equipment = player.equipment;
             string emp = equipment.SelectedItem == SupportItem.Emp ? "› EMP" : "EMP";
@@ -103,7 +109,10 @@ namespace ProjectEcho
             if (game.Inventory.Count(SupportItem.Armor) > 0) items.text += $"    Giáp ×{game.Inventory.Count(SupportItem.Armor)}";
             string activity = equipment.SkillSeconds > 0
                 ? $"  ·  {(equipment.SkillActive ? "Hiệu lực" : "Hồi chiêu")} {Mathf.CeilToInt(equipment.SkillSeconds)}s" : "";
-            skill.text = $"E  {SkillLabel(game.Equipped)}{activity}      T  Scanner {(equipment.ScannerOn ? "bật" : "tắt")}";
+            string scanner = !equipment.ScannerOn ? "tắt" : equipment.ScannerSignalled ? "bật · Hunter đã bắt sóng"
+                : $"bật · phát tín hiệu sau {Mathf.CeilToInt(equipment.ScannerSignalIn)}s";
+            skill.text = $"E  {SkillLabel(game.Equipped)}{activity}      T  Scanner {scanner}";
+            skill.color = equipment.SkillActive ? teal : muted;
             radar.gameObject.SetActive(equipment.SkillActive && game.Equipped == Skill.HunterSensor);
             radarBlip.gameObject.SetActive(equipment.SensorPosition.HasValue);
             if (equipment.SensorPosition is Vector3 position)

@@ -13,6 +13,7 @@ Cập nhật 2026-11-22 (chiều). Kết quả kiểm thử lấy từ Unity 600
 | 7. Playtest vertical slice | Bot input thật (bàn phím/chuột ảo Input System) chơi từ menu tới cổng, bị bắt, hồi sinh, nhặt lại, pause, lượt mới. Đo hiệu năng trong bản build (`-echoPerf`). | Xong phần tự động, chờ người chơi thật | `Playtest/Office_Level01_Playtest.md` |
 | 8. Kiểm thử và build | EditMode 20/20, PlayMode 10/10, build Windows x64. | Xong | `Builds/Validation/` |
 | 9. Tối ưu render | Profile bằng FrameTimingManager + tắt thử từng yếu tố. Windows dùng Direct3D 11, GPU Resident Drawer, SSAO nguồn Depth/AfterOpaque. p95 ở 3 góc nặng giảm 63–74 %. | Xong | `Playtest/Office_Level01_PerfOptimization.md` |
+| 10. Cơ chế né Hunter | Thử bằng input thật: tủ kín (thấy/chưa thấy), nấp sau vật cản quá 30 s, Scanner 20 s, EMP/Stun từ lúc nhặt tới khi Hunter hồi phục, Burst Sprint qua bị bắt và lượt mới, Dash/Sensor trên Sandbox. Sửa: Hunter thấy TAY vào tủ thì lôi ra (D20), không chạm đất khi đứng yên ở FPS cao. Phản hồi HUD cho kỹ năng, vật phẩm, chỗ nấp, Scanner, trạng thái Hunter (D21). | Xong | `Playtest/Office_Level01_Evasion.md`, PlayMode `EvasionPlaytests` |
 
 ## Kết quả kiểm thử gần nhất
 
@@ -24,7 +25,8 @@ Cập nhật 2026-11-22 (chiều). Kết quả kiểm thử lấy từ Unity 600
 - Validation Office: đường NavMesh Player Spawn → Relay 37,8 m, Relay → cổng 43,7 m, xa nhất Player Spawn → dữ liệu phòng họp 78,2 m.
 - Windows x64: `Builds/Windows/ProjectECHO.exe`, gói gửi tester `Builds/ProjectECHO_Office_Playtest_2026-11-22.zip` (82 MB, kèm `CHECKLIST_CHOI_THU.txt`, không kèm thư mục Burst debug). Bản build cũ ở `Builds/Windows-Office/` đã lỗi thời.
 - Hiệu năng sau tối ưu (GTX 1650, 1080p cửa sổ, vSync tắt): Relay nhìn tây bắc 13,3 / 21,8 → 5,9 / 6,7 ms (TB / p95), sảnh nhìn bắc 11,4 / 18,7 → 5,2 / 6,9 ms, phòng server nhìn tây 11,7 / 22,4 → 5,3 / 5,9 ms. Vòng chạy có Hunter: p99 14,1 → 7,3 ms, không còn khung > 25 ms. Hết tuyến 2 vòng (16/16 chặng, Lockdown suốt lượt, Hunter không bắt): p95 6,3, p99 7,1 ms, 0 khung > 25 ms. Xem `Playtest/Office_Level01_PerfOptimization.md`.
-- Lần chạy gần nhất (sau khi thêm phần đo hết tuyến): EditMode 20/20, PlayMode 10/10 (118 s). Bot hoàn tất sau 148 s, bị bắt 1 lần, kẹt 0.
+- Lần chạy sau khi thêm phần đo hết tuyến: EditMode 20/20, PlayMode 10/10 (118 s). Bot hoàn tất sau 148 s, bị bắt 1 lần, kẹt 0.
+- Lần chạy gần nhất (sau khi hoàn thiện cơ chế né Hunter): EditMode **20/20**, PlayMode **18/18** (212 s, có thêm 8 test `EvasionPlaytests`). Bot hoàn tất sau 202 s, bị bắt 1 lần, kẹt 0. Bản build và zip trong `Builds/` được tạo **trước** lượt sửa này.
 
 ## Kiến trúc
 
@@ -37,6 +39,7 @@ Cập nhật 2026-11-22 (chiều). Kết quả kiểm thử lấy từ Unity 600
 
 - Chưa có lượt chơi của người thật. Bot biết trước vị trí mục tiêu nên chưa đo được thời gian tìm kiếm của người mới.
 - Chặng Relay ở Lockdown: đứng yên trong vùng thì bị bắt trước 20 s. Phải rời vùng rồi quay lại. Waypoint 10 cách Relay 1,5 m. Chờ người chơi thật xác nhận trước khi đổi layout hoặc profile.
+- Scanner: tắt/bật lại thì đồng hồ 20 s chạy lại từ đầu, và mỗi lần bật chỉ phát một tín hiệu. Dash gặp vật cản cao thì bị từ chối, không lướt tới sát vật cản. Cả hai chờ người thiết kế xác nhận (D21).
 - Nhân vật TAY/Hunter vẫn là hình khối; chưa có rig, animation, âm thanh (chưa có tài nguyên).
 - Hunter chưa nhảy qua vật thấp (cần off-mesh link + animation, D14). Smoke Bomb, Decoy, cửa khóa giữ F ngoài phạm vi MVP hiện tại.
 - Hiệu năng: góc nặng nhất giờ bị giới hạn ở GPU (khoảng 5,5 ms, 1,9 triệu tam giác). Chưa có occlusion Umbra/static batching (cần static flag trên 6.545 node FBX). URP giảm độ phân giải bóng đổ đèn phụ để vừa atlas 2048, không ảnh hưởng frame time. Windows chỉ build Direct3D 11.

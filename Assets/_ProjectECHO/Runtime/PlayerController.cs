@@ -21,7 +21,12 @@ namespace ProjectEcho
         private HideSpot hiding;
         private float hideRemaining;
         private bool exitingHide;
+        private bool entryWitnessed;
         public bool IsSafelyHidden { get; private set; }
+        /// <summary>
+        /// D09: TAY đã ở trong chỗ nấp kín nhưng Hunter đang đuổi và nhìn thấy trong lúc TAY vào, nên Hunter biết TAY ở đó.
+        /// </summary>
+        public bool HideWitnessed => hiding != null && hiding.absolute && entryWitnessed && hideRemaining <= 0 && !exitingHide;
         public bool IsHiding => hiding != null;
         public HideSpot CurrentHide => hiding;
         public float HiddenSeconds { get; private set; }
@@ -32,6 +37,8 @@ namespace ProjectEcho
         private void Awake()
         {
             motor = GetComponent<CharacterController>();
+            // Mặc định 0,001 m bỏ qua bước rơi rất nhỏ khi đứng yên ở FPS cao, khiến isGrounded = false và E/Space bị từ chối.
+            motor.minMoveDistance = 0;
             standingHeight = motor.height;
         }
 
@@ -133,9 +140,13 @@ namespace ProjectEcho
             return flags;
         }
 
-        public bool TryDash()
+        public bool TryDash() => TryDash(out _);
+
+        /// <summary>Lướt theo hướng camera. Trả về lý do khi không lướt được để HUD báo cho người chơi.</summary>
+        public bool TryDash(out string blocked)
         {
-            if (!Grounded || IsCrouched || dashRemaining > 0) return false;
+            blocked = !Grounded || IsCrouched ? "đang cúi hoặc trên không" : dashRemaining > 0 ? "đang lướt" : null;
+            if (blocked != null) return false;
             Vector3 direction = view.Heading * Vector3.forward;
             float radius = motor.radius - motor.skinWidth;
             Vector3 bottom = transform.position + Vector3.up * (radius + 0.08f);
@@ -145,11 +156,12 @@ namespace ProjectEcho
             {
                 Vector3 lift = Vector3.up * tuning.dashVaultClearance;
                 Vector3 landing = transform.position + direction * tuning.dashDistance;
-                if (hit.distance < motor.radius ||
-                    Physics.CapsuleCast(bottom, top, radius, Vector3.up, lift.magnitude, Level.worldMask, QueryTriggerInteraction.Ignore) ||
-                    Physics.CapsuleCast(bottom + lift, top + lift, radius, direction, tuning.dashDistance, Level.worldMask, QueryTriggerInteraction.Ignore) ||
-                    !Physics.Raycast(landing + lift, Vector3.down, lift.magnitude + 0.25f, Level.worldMask, QueryTriggerInteraction.Ignore))
-                    return false;
+                blocked = hit.distance < motor.radius ? "vật cản ngay trước mặt"
+                    : Physics.CapsuleCast(bottom, top, radius, Vector3.up, lift.magnitude, Level.worldMask, QueryTriggerInteraction.Ignore) ? "không đủ chỗ phía trên"
+                    : Physics.CapsuleCast(bottom + lift, top + lift, radius, direction, tuning.dashDistance, Level.worldMask, QueryTriggerInteraction.Ignore) ? "vật cản quá cao"
+                    : !Physics.Raycast(landing + lift, Vector3.down, lift.magnitude + 0.25f, Level.worldMask, QueryTriggerInteraction.Ignore) ? "không có chỗ đáp"
+                    : null;
+                if (blocked != null) return false;
                 motor.Move(lift);
                 verticalSpeed = 0;
             }
@@ -164,13 +176,18 @@ namespace ProjectEcho
             if (IsHiding || !Grounded || spot.inside == null || spot.outside == null) return;
             hiding = spot;
             hideRemaining = Mathf.Max(0.001f, spot.entryDelay);
+            entryWitnessed = WitnessedNow();
             HidePrompt = "Đang vào chỗ nấp…";
         }
+
+        /// <summary>Hunter đang đuổi và có tầm nhìn tới TAY. Một cái liếc chưa đủ thời gian phản ứng không tính.</summary>
+        private bool WitnessedNow() => Level.hunter.IsTrackingPlayer && Level.hunter.Current == HunterState.Chase;
 
         private void TickHide(float delta)
         {
             if (hideRemaining > 0)
             {
+                if (!exitingHide) entryWitnessed |= WitnessedNow();
                 hideRemaining -= delta;
                 if (hideRemaining > 0) return;
                 if (exitingHide)
@@ -179,14 +196,19 @@ namespace ProjectEcho
                     ClearHiding();
                     return;
                 }
-                IsSafelyHidden = hiding.absolute && !Level.hunter.IsTrackingPlayer;
+                entryWitnessed |= WitnessedNow();
+                IsSafelyHidden = hiding.absolute && !entryWitnessed;
                 Place(hiding.inside.position, hiding.inside.rotation);
                 SetHeight(tuning.crouchHeight);
-                HidePrompt = "C · Ra khỏi chỗ nấp";
                 HiddenSeconds = 0;
+                RefreshHidePrompt();
                 return;
             }
-            if (!exitingHide) HiddenSeconds += delta;
+            if (!exitingHide)
+            {
+                HiddenSeconds += delta;
+                RefreshHidePrompt();
+            }
             if (!exitingHide && input.Hide.WasPressedThisFrame())
             {
                 exitingHide = true;
@@ -194,6 +216,20 @@ namespace ProjectEcho
                 hideRemaining = Mathf.Max(0.001f, hiding.exitDelay);
                 HidePrompt = "Đang rời chỗ nấp…";
             }
+        }
+
+        /// <summary>Cho người chơi biết chỗ nấp có an toàn không và Hunter sắp tới kiểm tra chưa.</summary>
+        private void RefreshHidePrompt()
+        {
+            if (hiding.absolute)
+            {
+                HidePrompt = IsSafelyHidden ? "Trong tủ kín · an toàn    C  Ra" : "Hunter đã thấy bạn vào tủ!    C  Ra ngay";
+                return;
+            }
+            float check = Level.hunter.profile.relativeHideCheckSeconds;
+            HidePrompt = $"Nấp sau vật cản · {Mathf.FloorToInt(HiddenSeconds)} s" +
+                         (HiddenSeconds >= check ? " · Hunter có thể tới kiểm tra" : HiddenSeconds >= check - 10 ? $" · Hunter kiểm tra sau {Mathf.CeilToInt(check - HiddenSeconds)} s" : "") +
+                         "    C  Ra";
         }
 
         public void OnCaptured()
@@ -228,6 +264,7 @@ namespace ProjectEcho
             HidePrompt = null;
             IsSafelyHidden = false;
             exitingHide = false;
+            entryWitnessed = false;
             hideRemaining = 0;
         }
     }

@@ -62,6 +62,7 @@ Playtest tự động bằng input thật (bàn phím/chuột ảo, Hunter thậ
 
 ```
 Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform PlayMode -testFilter OfficePlaythroughTests -testResults Playtest.xml
+Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform PlayMode -testFilter Evasion -testResults Evasion.xml
 ```
 
 Đo hiệu năng trong bản build. Probe đo sảnh, phòng server, Relay theo 4 hướng camera rồi chạy một vòng 60 s có Hunter; ghi CPU main/render/GPU, chụp UI và ảnh kiểm tra hiển thị; tự thoát sau khoảng 2 phút:

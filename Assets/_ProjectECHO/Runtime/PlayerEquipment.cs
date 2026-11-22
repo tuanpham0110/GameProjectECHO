@@ -15,6 +15,9 @@ namespace ProjectEcho
         public float SkillSeconds => active > 0 ? active : cooldown;
         public bool SkillActive => active > 0;
         public bool ScannerOn => scannerLight != null && scannerLight.enabled;
+        /// <summary>Số giây Scanner còn bật được trước khi phát tín hiệu cho Hunter; 0 khi đã phát.</summary>
+        public float ScannerSignalIn => ScannerOn && !scannerAlert ? Mathf.Max(0, player.tuning.scannerExposure - scannerTime) : 0;
+        public bool ScannerSignalled => ScannerOn && scannerAlert;
         public SupportItem SelectedItem { get; private set; }
         public float SpeedMultiplier => active > 0 && player.Level.game.Equipped == Skill.BurstSprint ? player.tuning.burstMultiplier : 1;
         public Vector3? SensorPosition { get; private set; }
@@ -36,8 +39,8 @@ namespace ProjectEcho
 
             var input = player.input;
             if (input.Ability.WasPressedThisFrame()) Activate();
-            if (input.SelectEmp.WasPressedThisFrame()) SelectedItem = SupportItem.Emp;
-            if (input.SelectStun.WasPressedThisFrame()) SelectedItem = SupportItem.Stun;
+            if (input.SelectEmp.WasPressedThisFrame()) Select(SupportItem.Emp);
+            if (input.SelectStun.WasPressedThisFrame()) Select(SupportItem.Stun);
             if (input.UseItem.WasPressedThisFrame()) UseItem();
             if (input.Scanner.WasPressedThisFrame()) SetScanner(!ScannerOn);
             if (ScannerOn)
@@ -56,21 +59,55 @@ namespace ProjectEcho
 
         private void Activate()
         {
-            if (active > 0 || cooldown > 0) return;
+            var game = player.Level.game;
+            string name = SkillName(game.Equipped);
+            if (game.Equipped == Skill.None) return;
+            if (active > 0)
+            {
+                game.Notify($"{name} đang hiệu lực, còn {Mathf.CeilToInt(active)} s.");
+                return;
+            }
+            if (cooldown > 0)
+            {
+                game.Notify($"{name} đang hồi, dùng lại sau {Mathf.CeilToInt(cooldown)} s.");
+                return;
+            }
             var tuning = player.tuning;
-            switch (player.Level.game.Equipped)
+            switch (game.Equipped)
             {
                 case Skill.BurstSprint when player.Grounded && !player.IsCrouched:
                     active = tuning.burstDuration;
+                    game.Notify($"Burst Sprint: tăng tốc {tuning.burstDuration:0} s.", 1.5f);
                     break;
-                case Skill.Dash when player.TryDash():
-                    cooldown = tuning.dashCooldown;
+                case Skill.BurstSprint:
+                    game.Notify("Không dùng Burst Sprint khi đang cúi hoặc trên không.");
+                    break;
+                case Skill.Dash:
+                    if (player.TryDash(out string blocked)) cooldown = tuning.dashCooldown;
+                    else game.Notify($"Không lướt được: {blocked}.");
                     break;
                 case Skill.HunterSensor:
                     active = tuning.sensorDuration;
                     ReadSensor();
+                    game.Notify(SensorPosition.HasValue ? "Hunter Sensor: đã định vị Hunter." : $"Hunter Sensor: không có Hunter trong {tuning.sensorRange:0} m.", 2);
                     break;
             }
+        }
+
+        public static string SkillName(Skill skill) => skill switch
+        {
+            Skill.BurstSprint => "Burst Sprint", Skill.Dash => "Dash", Skill.HunterSensor => "Hunter Sensor", _ => "Kỹ năng"
+        };
+
+        public static string ItemName(SupportItem item) => item switch
+        {
+            SupportItem.Emp => "EMP Mine", SupportItem.Stun => "Stun Grenade", _ => "Giáp"
+        };
+
+        private void Select(SupportItem item)
+        {
+            SelectedItem = item;
+            player.Level.game.Notify($"Chọn {ItemName(item)} (còn {player.Level.game.Inventory.Count(item)}). G để dùng.", 2);
         }
 
         private void ReadSensor()
@@ -121,7 +158,7 @@ namespace ProjectEcho
             var inventory = level.game.Inventory;
             if (inventory.Count(SelectedItem) == 0)
             {
-                level.game.Notify("Hết vật phẩm đang chọn.");
+                level.game.Notify($"Không còn {ItemName(SelectedItem)}. Tìm thêm trên map.");
                 return;
             }
             Vector3 direction = player.view.Heading * Vector3.forward;
@@ -143,6 +180,9 @@ namespace ProjectEcho
                 SupportDevice.Spawn(level, player.tuning, SelectedItem, start, direction * 7 + Vector3.up * 3);
             }
             inventory.Use(SelectedItem);
+            level.game.Notify(SelectedItem == SupportItem.Emp
+                ? $"Đã đặt EMP Mine. Hunter đi qua trong {player.tuning.empRadius:0} m sẽ chậm 50% trong {player.tuning.empSeconds:0} s."
+                : "Đã ném Stun Grenade.", 2.5f);
         }
 
         public void OnCaptured()
