@@ -1,0 +1,97 @@
+# Playtest tự động Office_Level01
+
+Chạy lúc 2026-11-22 13:26. Input: bàn phím và chuột ảo của Input System (W/Shift/E/F/Esc, mũi tên + Enter trong menu). Bot đi theo NavMesh tới mục tiêu gần nhất, Hunter chạy AI thật. Thời gian trong ngoặc là thời gian trong game (x2 tốc độ thực).
+
+## Lượt 1 · từ menu đến cổng thoát
+  - HUD · Menu chính: heading: “PROJECT ECHO” · subheading: “Office · Level 01”
+- Menu: phím mũi tên tới **Chuẩn bị nhiệm vụ**, Enter.
+- Sảnh: chọn sẵn None, đã xác nhận None.
+- Menu: phím mũi tên tới **Burst Sprint**, Enter.
+- Menu: phím mũi tên tới **Xác nhận kỹ năng**, Enter.
+  - [00:00] Hunter lên cấp 1.
+- Menu: phím mũi tên tới **Bắt đầu nhiệm vụ**, Enter.
+  - HUD · Bắt đầu lượt: objective: “1/3  Tìm dữ liệu 0/6  ·  T bật Scanner để dò tín hiệu” · progress: “DỮ LIỆU   0/6” · warning: “HUNTER 1 · PATROL”
+  - HUD · Scanner bật (phím T): objective: “1/3  Tìm dữ liệu 0/6  ·  tín hiệu gần nhất ~9 m · bên phải” · progress: “DỮ LIỆU   0/6” · warning: “HUNTER 1 · PATROL”
+- [00:02] Nhặt **DNA Sample** tại (-5.5; -44.0): tuyến 8.8 m từ (-12.0; -38.5), 2.3 s, thấy từ 6.4 m, góc thử thêm 0. Có 1/6.
+  - [00:06] Hunter lên cấp 2.
+- [00:06] Nhặt **Access Key** tại (4.5; -42.5): tuyến 15.1 m từ (-6.1; -43.2), 4.0 s, thấy từ 2.5 m, góc thử thêm 0. Có 2/6.
+- [00:10] Nhặt **Archive Fragment** tại (18.5; -38.6): tuyến 15.5 m từ (4.8; -41.6), 4.1 s, thấy từ 7.4 m, góc thử thêm 0. Có 3/6.
+- [00:19] Mở cửa **Server Room West Door** trên đường tới Memory Fragment.
+- [00:22] Nhặt **Memory Fragment** tại (14.4; -5.4): tuyến 43.1 m từ (17.7; -39.2), 11.9 s, thấy từ 6.5 m, góc thử thêm 0. Có 4/6.
+- [00:29] Mở cửa **Meeting Room Side Door** trên đường tới Research File.
+  - [00:33] Hunter lên cấp 3.
+- [00:33] Nhặt **Research File** tại (-9.5; 7.4): tuyến 39.9 m từ (15.3; -5.9), 11.0 s, thấy từ 11.3 m, góc thử thêm 0. Có 5/6.
+  - [00:45] Hunter lên cấp 4.
+- [00:45] Nhặt **Clone ID** tại (-12.0; -24.0): tuyến 42.8 m từ (-8.7; 6.8), 11.8 s, thấy từ 5.9 m, góc thử thêm 0. Có 6/6.
+  - HUD · Đủ dữ liệu: objective: “2/3  Đến Data Relay (phía nam phòng server)  ·  38 m · bên trái” · progress: “DỮ LIỆU   6/6” · warning: “HUNTER 4 · LOCKDOWN  ▲” · toast: “Đủ dữ liệu. Hunter chuyển LOCKDOWN. Đến Data Relay (phía nam phòng server).” · relayLabel: “ĐẾN DATA RELAY  ·  38 m · bên trái”
+  - [00:49] Hunter phát hiện TAY: TAY (3.3; -28.9), Hunter (10.2; -31.7), 7.4 m, cấp 4.
+  - [00:49] Né Hunter (7.4 m) khi đang tới Data Relay.
+  - [00:52] Đã cắt đuôi sau 2.5 s, tại (-8.2; -25.2).
+  - [00:52] Hunter phát hiện TAY: TAY (-7.5; -25.4), Hunter (-0.5; -27.7), 7.4 m, cấp 4.
+  - [00:52] Né Hunter (7.4 m) khi đang tới Data Relay.
+  - [00:54] Đã cắt đuôi sau 2.5 s, tại (-18.2; -20.4).
+  - [00:55] Hunter phát hiện TAY: TAY (-17.7; -20.6), Hunter (-11.1; -24.1), 7.4 m, cấp 4.
+  - [00:55] Né Hunter (7.4 m) khi đang tới Data Relay.
+  - [00:59] Đã cắt đuôi sau 4.1 s, tại (-5.4; -1.8).
+- [01:11] Bắt đầu truyền tại (22.8; -27.4).
+  - HUD · Đang truyền: objective: “2/3  Giữ trong vùng Relay. Hunter tới thì rời vùng, tiến độ được giữ” · progress: “DỮ LIỆU   6/6” · warning: “HUNTER 4 · LOCKDOWN” · prompt: “F  Data Relay · đang truyền” · toast: “Đang truyền, Relay phát tiếng ồn. Hunter tới thì rời vùng, tiến độ được giữ.” · relayLabel: “DATA RELAY  0%”
+  - HUD · Ngoài vùng Relay: objective: “2/3  Quay lại vùng Relay để truyền tiếp  ·  5 m · phía sau” · progress: “DỮ LIỆU   6/6” · warning: “HUNTER 4 · LOCKDOWN” · relayLabel: “DATA RELAY  32%   ·   TẠM DỪNG, QUAY LẠI VÙNG”
+- [01:21] Rời vùng tới (22.6; -23.6) (5.0 m): tiến độ 30 % → 33 % sau 3 s ngoài vùng.
+  - [01:21] Né Hunter (6.0 m) khi đang tới quay lại Relay.
+  - [01:21] Hunter phát hiện TAY: TAY (22.6; -23.6), Hunter (20.3; -29.1), 6.0 m, cấp 4.
+  - [01:26] Đã cắt đuôi sau 4.8 s, tại (21.7; -0.7).
+  - [01:26] Hunter phát hiện TAY: TAY (21.7; -1.9), Hunter (20.7; -9.2), 7.4 m, cấp 4.
+  - [01:26] Né Hunter (7.4 m) khi đang tới quay lại Relay.
+  - [01:27] Hunter phát hiện TAY: TAY (21.7; 0.2), Hunter (21.1; -7.5), 7.7 m, cấp 4.
+  - [01:28] Hunter phát hiện TAY: TAY (16.7; 2.0), Hunter (21.9; -2.9), 7.1 m, cấp 4.
+  - [01:30] Đã cắt đuôi sau 3.4 s, tại (10.2; -1.4).
+  - [01:47] Hunter phát hiện TAY: TAY (22.8; -27.4), Hunter (21.9; -19.7), 7.7 m, cấp 4.
+  - [01:47] Né Hunter (7.7 m) khi đang tới Data Relay (đang truyền).
+  - [01:48] Hunter phát hiện TAY: TAY (23.4; -29.5), Hunter (22.3; -23.3), 6.3 m, cấp 4.
+  - [01:51] Đã cắt đuôi sau 3.8 s, tại (6.2; -40.0).
+  - [01:51] Hunter phát hiện TAY: TAY (8.2; -38.6), Hunter (14.1; -34.5), 7.3 m, cấp 4.
+  - [01:51] Né Hunter (7.3 m) khi đang tới quay lại vùng Relay.
+  - [01:53] Đã cắt đuôi sau 1.8 s, tại (3.1; -45.3).
+- [02:05] Relay: Complete, 100 %.
+  - HUD · Truyền xong: objective: “3/3  Về cổng thoát (sảnh lễ tân, logo AETHER)  ·  42 m · phía sau” · progress: “DỮ LIỆU   6/6” · warning: “HUNTER 4 · LOCKDOWN” · prompt: “F  Data Relay · đã truyền xong” · toast: “Truyền hoàn tất. Cổng thoát (sảnh lễ tân, logo AETHER) đã mở.” · relayLabel: “CỔNG THOÁT ĐÃ MỞ  ·  42 m · phía sau”
+  - [02:07] Hunter phát hiện TAY: TAY (17.6; -31.7), Hunter (11.7; -36.2), 7.4 m, cấp 4.
+  - [02:07] Né Hunter (7.4 m) khi đang tới Cổng thoát.
+  - [02:08] Hunter phát hiện TAY: TAY (19.5; -29.9), Hunter (13.7; -34.8), 7.6 m, cấp 4.
+  - [02:10] Đã cắt đuôi sau 2.6 s, tại (29.1; -27.1).
+  - [02:10] Hunter phát hiện TAY: TAY (28.3; -27.3), Hunter (21.0; -28.7), 7.4 m, cấp 4.
+  - [02:10] Né Hunter (7.4 m) khi đang tới Cổng thoát.
+  - [02:12] Đã cắt đuôi sau 2.1 s, tại (30.5; -18.9).
+- [02:28] Tại cổng (-15.3; -41.7): trạng thái Complete.
+- Hoàn tất sau 148 s, còn 572 s. Bị bắt 0 lần, Hunter phát hiện 13 lần, né 28 s, kẹt 0 lần.
+  - HUD · Màn hình kết quả: heading: “Nhiệm vụ hoàn tất” · subheading: “Đã thoát, còn 09:32  ·  bị bắt 0 lần.”
+
+## Lượt 2 · retry, bị bắt, hồi sinh, nhặt lại, tạm dừng, lượt mới
+- Menu: phím mũi tên tới **Chuẩn bị lượt mới**, Enter.
+- Sảnh: chọn sẵn BurstSprint, đã xác nhận None.
+- Menu: phím mũi tên tới **Xác nhận kỹ năng**, Enter.
+  - [00:00] Hunter lên cấp 1.
+- Menu: phím mũi tên tới **Bắt đầu nhiệm vụ**, Enter.
+- [00:02] Nhặt **DNA Sample** tại (-5.5; -44.0): tuyến 8.8 m từ (-12.0; -38.5), 2.2 s, thấy từ 6.4 m, góc thử thêm 0. Có 1/6.
+  - [00:06] Hunter lên cấp 2.
+- [00:06] Nhặt **Access Key** tại (4.5; -42.5): tuyến 15.1 m từ (-6.1; -43.2), 4.0 s, thấy từ 2.5 m, góc thử thêm 0. Có 2/6.
+- Có 2 gói, cố ý đi vào tầm Hunter.
+  - [00:21] Hunter phát hiện TAY: TAY (-1.0; -4.4), Hunter (-2.9; -6.6), 2.9 m, cấp 2.
+  - [00:21] **Bị bắt** tại (-1.7; -4.8) (Hunter (-2.4; -6.1)). Bị bắt. Mất 2 gói, gói bị mất trở về chỗ cũ.
+  - [00:21] Hunter lên cấp 1.
+  - HUD · Ngay khi bị bắt: objective: “1/3  Tìm dữ liệu 0/6  ·  T bật Scanner để dò tín hiệu” · progress: “DỮ LIỆU   0/6” · warning: “HUNTER 1 · PATROL  ▲” · prompt: “BỊ BẮT” · toast: “Bị bắt. Mất 2 gói, gói bị mất trở về chỗ cũ.”
+- [00:23] Bị bắt: 2 → 0 gói, hồi sinh tại (-12.0; -38.5), 6 gói hiện lại trên map.
+  - HUD · Sau hồi sinh: objective: “1/3  Tìm dữ liệu 0/6  ·  T bật Scanner để dò tín hiệu” · progress: “DỮ LIỆU   0/6” · warning: “HUNTER 1 · PATROL  ▲” · toast: “Bị bắt. Mất 2 gói, gói bị mất trở về chỗ cũ.”
+- [00:25] Nhặt **DNA Sample** tại (-5.5; -44.0): tuyến 8.8 m từ (-12.0; -38.5), 2.2 s, thấy từ 6.4 m, góc thử thêm 0. Có 1/6.
+  - [00:29] Hunter lên cấp 2.
+- [00:29] Nhặt **Access Key** tại (4.5; -42.5): tuyến 15.1 m từ (-6.1; -43.2), 4.0 s, thấy từ 2.5 m, góc thử thêm 0. Có 2/6.
+- Nhặt lại xong, có 2 gói.
+- Esc tạm dừng (đồng hồ đứng) và Esc tiếp tục.
+- Menu: phím mũi tên tới **Chuẩn bị lượt mới**, Enter.
+- Sảnh: chọn sẵn BurstSprint, đã xác nhận None.
+- Menu: phím mũi tên tới **Xác nhận kỹ năng**, Enter.
+  - [00:00] Hunter lên cấp 1.
+- Menu: phím mũi tên tới **Bắt đầu nhiệm vụ**, Enter.
+- Từ menu tạm dừng chọn Chuẩn bị lượt mới: lượt mới bắt đầu với 0 dữ liệu, đồng hồ đầy.
+
+## Vấn đề ghi nhận
+- Không có.

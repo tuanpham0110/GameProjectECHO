@@ -10,7 +10,7 @@ namespace ProjectEcho
         private MaterialPropertyBlock highlight;
         private bool scanned;
         public override string Prompt => displayName;
-        public override void Interact(PlayerController player) => player.Level.game.Collect(dataId);
+        public override void Interact(PlayerController player) => player.Level.game.Collect(dataId, displayName);
         public void SetCollected(bool value)
         {
             if (value) SetScanned(false);

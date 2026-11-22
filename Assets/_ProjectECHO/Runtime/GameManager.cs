@@ -18,11 +18,13 @@ namespace ProjectEcho
             (Confirmed != Skill.None ? Confirmed == Selected && IsUnlocked(Confirmed) : !HasUnlockedSkill());
         public bool CanBeCaptured => CanAct && spawnProtection <= 0 && !level.player.IsSafelyHidden;
         public string Status { get; private set; }
+        public int Captures { get; private set; }
         private SaveSystem save;
         private SaveProfile profile;
         private float captureRemaining;
         private float spawnProtection;
         private float statusRemaining;
+        private bool wasInRelay;
 
         private void Awake()
         {
@@ -69,10 +71,14 @@ namespace ProjectEcho
                 }
                 return;
             }
-            if (Mission.TickRelay(delta, level.IsInRelayRange))
+            bool inRelay = level.IsInRelayRange;
+            if (Mission.Relay == RelayState.Transmitting && inRelay != wasInRelay)
+                Notify(inRelay ? "Tiếp tục truyền." : "Ra khỏi vùng Relay. Tiến độ được giữ, quay lại để truyền tiếp.");
+            wasInRelay = inRelay;
+            if (Mission.TickRelay(delta, inRelay))
             {
                 level.SyncWorld();
-                Notify("Truyền hoàn tất. Đến cổng thoát.");
+                Notify($"Truyền hoàn tất. Cổng thoát ({level.rules.exitLocation}) đã mở.", 5);
             }
             if (Mission.CanExit && level.exit.HasEntered(level.player.transform.position)) TryExit();
         }
@@ -115,6 +121,8 @@ namespace ProjectEcho
             Inventory = new InventorySystem();
             Timer.Start(level.rules.timeLimit);
             Status = null;
+            Captures = 0;
+            wasInRelay = false;
             spawnProtection = level.rules.spawnProtection;
             level.ResetRun();
             SyncCursor();
@@ -127,10 +135,13 @@ namespace ProjectEcho
             SyncCursor();
         }
 
-        public bool Collect(string id)
+        public bool Collect(string id, string label = null)
         {
             if (!CanAct || !Mission.Collect(id)) return false;
             level.SyncWorld();
+            if (Mission.ValidData >= Mission.RequiredData)
+                Notify($"Đủ dữ liệu. Hunter chuyển LOCKDOWN. Đến Data Relay ({level.rules.relayLocation}).", 5);
+            else Notify($"Đã nhặt {label ?? "gói dữ liệu"} ({Mission.ValidData}/{Mission.RequiredData}).");
             return true;
         }
 
@@ -139,8 +150,10 @@ namespace ProjectEcho
             if (!CanAct || !level.IsInRelayRange) return;
             if (Mission.BeginRelay())
             {
+                wasInRelay = true;
+                level.SyncWorld();
                 level.EmitNoise(level.relay.transform.position, 15);
-                Notify("Đang truyền. Ở trong vùng Data Relay để tiếp tục.");
+                Notify("Đang truyền, Relay phát tiếng ồn. Hunter tới thì rời vùng, tiến độ được giữ.", 4);
             }
             else if (Mission.Relay == RelayState.Idle)
                 Notify($"Cần thêm {Mission.RequiredData - Mission.ValidData} gói dữ liệu.");
@@ -150,11 +163,17 @@ namespace ProjectEcho
         {
             if (!CanBeCaptured || !State.MoveTo(GameState.Captured)) return false;
             bool armored = Inventory.Use(SupportItem.Armor);
+            bool transmitting = Mission.Relay == RelayState.Transmitting;
+            bool delivered = Mission.Relay == RelayState.Complete;
             int lost = Mission.ApplyCapture(armored, count => Random.Range(0, count)).Count;
+            Captures++;
             captureRemaining = level.rules.captureSeconds;
             level.player.OnCaptured();
             level.SyncWorld();
-            Notify(armored ? "Giáp đã bảo vệ dữ liệu." : $"Bị bắt. Mất {lost} gói dữ liệu.", captureRemaining + 3);
+            string message = armored ? "Giáp đã bảo vệ dữ liệu." : lost > 0 ? $"Bị bắt. Mất {lost} gói, gói bị mất trở về chỗ cũ." : "Bị bắt.";
+            if (transmitting) message += " Truyền bị hủy.";
+            else if (delivered && Mission.Relay != RelayState.Complete) message += " Dữ liệu đã truyền bị lỗi, cổng đóng lại.";
+            Notify(message, captureRemaining + 4);
             return true;
         }
 

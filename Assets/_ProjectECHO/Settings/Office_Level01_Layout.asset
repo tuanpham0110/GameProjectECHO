@@ -32,6 +32,8 @@ MonoBehaviour:
   - luminous
   - Glow
   - VentStripe
+  - faceted leaf
+  - Plant stem
   playerSpawn:
     position: {x: -12, y: 0, z: -38.5}
     yaw: 0

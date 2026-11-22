@@ -24,6 +24,8 @@ namespace ProjectEcho
         [Min(0)] public float spawnProtection = 1.5f;
         public Skill[] playtestSkills = { Skill.BurstSprint };
         public Skill completionUnlock = Skill.BurstSprint;
+        [Tooltip("Mô tả vị trí Relay trong briefing và HUD.")] public string relayLocation = "phía nam phòng server";
+        [Tooltip("Mô tả vị trí cổng thoát trong briefing và HUD.")] public string exitLocation = "sảnh lễ tân, logo AETHER";
 
         public int GetThreat(int validData)
         {

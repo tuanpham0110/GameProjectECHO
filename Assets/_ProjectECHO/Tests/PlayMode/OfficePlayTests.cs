@@ -204,6 +204,26 @@ namespace ProjectEcho.Tests
         }
 
         [UnityTest]
+        public IEnumerator PlayerPassesPottedPlantByMeetingRoomSideDoor()
+        {
+            // Playtest 2026-11-22: TAY kẹt ở (-3,3; 0,2) vì collider lá Potted plant.002 khi đi về cửa phụ phòng họp.
+            StartRun();
+            var player = level.player;
+            var door = level.interactions.OfType<OfficeDoor>().First(d => d.name == "Meeting Room Side Door");
+            if (!door.IsOpen) door.Interact(player);
+            yield return null;
+            Assert.That(NavMesh.SamplePosition(new Vector3(-3.3f, 0, 0.2f), out var start, 1, NavMesh.AllAreas), Is.True);
+            Vector3 target = new(-1.9f, start.position.y, -1.0f);
+            player.Teleport(start.position + Vector3.up * 0.05f, Quaternion.identity);
+            Physics.SyncTransforms();
+            Vector3 step = (target - start.position).normalized * 0.1f;
+            for (int i = 0; i < 20; i++) player.ApplyMovement(step + Vector3.down * 0.02f);
+            Vector3 moved = player.transform.position - start.position;
+            moved.y = 0;
+            Assert.That(moved.magnitude, Is.GreaterThan(1.5f), $"TAY bị chặn ở {player.transform.position}.");
+        }
+
+        [UnityTest]
         public IEnumerator HunterCannotSeeThroughOfficeWallButSeesAcrossOpenFloor()
         {
             StartRun();

@@ -1,10 +1,10 @@
 ﻿# Kiểm tra Office_Level01
 
-Sinh bởi **Tools → Project ECHO → Run Validation** lúc 2026-11-22 02:48.
+Sinh bởi **Tools → Project ECHO → Run Validation** lúc 2026-11-22 13:10.
 
 | Từ | Tới | Trạng thái | Độ dài đường NavMesh (m) |
 | --- | --- | --- | --- |
-| Player Spawn | Data · Research File | đạt | 78.3 |
+| Player Spawn | Data · Research File | đạt | 78.2 |
 | Player Spawn | Data · Memory Fragment | đạt | 60.4 |
 | Player Spawn | Data · Clone ID | đạt | 54.9 |
 | Player Spawn | Data · DNA Sample | đạt | 8.8 |
@@ -23,7 +23,7 @@ Sinh bởi **Tools → Project ECHO → Run Validation** lúc 2026-11-22 02:48.
 | Player Spawn | Relative hide spot | đạt | 41.7 |
 | Player Spawn | Waypoint 01 | đạt | 64.7 |
 | Player Spawn | Waypoint 02 | đạt | 59.7 |
-| Player Spawn | Waypoint 03 | đạt | 64.2 |
+| Player Spawn | Waypoint 03 | đạt | 64.1 |
 | Player Spawn | Waypoint 04 | đạt | 63.6 |
 | Player Spawn | Waypoint 05 | đạt | 62.6 |
 | Player Spawn | Waypoint 06 | đạt | 46.4 |
@@ -35,7 +35,7 @@ Sinh bởi **Tools → Project ECHO → Run Validation** lúc 2026-11-22 02:48.
 | Player Spawn | Waypoint 12 | đạt | 56.5 |
 | Player Spawn | Waypoint 13 | đạt | 59.0 |
 | Player Spawn | Hunter Spawn | đạt | 55.2 |
-| Hunter Spawn | Data · Research File | đạt | 42.5 |
+| Hunter Spawn | Data · Research File | đạt | 42.4 |
 | Hunter Spawn | Data · Memory Fragment | đạt | 11.3 |
 | Hunter Spawn | Data · Clone ID | đạt | 42.7 |
 | Hunter Spawn | Data · DNA Sample | đạt | 50.8 |

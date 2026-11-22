@@ -30,6 +30,8 @@ namespace ProjectEcho.Tests
                 "Relay và cổng thoát cần cách nhau để tạo giai đoạn chạy thoát.");
             Assert.That(Vector3.Distance(layout.playerSpawn.position, layout.hunterSpawn.position), Is.GreaterThan(20),
                 "Hunter không được khởi động sát TAY.");
+            Assert.That(layout.collisionExclusions, Does.Contain("faceted leaf").And.Contain("Plant stem"),
+                "Lá chậu cây không được chặn TAY (playtest: kẹt cạnh cửa phụ phòng họp).");
         }
 
         [Test]

@@ -26,3 +26,5 @@ MonoBehaviour:
   spawnProtection: 1.5
   playtestSkills: 01000000
   completionUnlock: 1
+  relayLocation: "phía nam phòng server"
+  exitLocation: "sảnh lễ tân, logo AETHER"

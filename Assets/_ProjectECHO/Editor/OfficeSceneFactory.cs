@@ -99,6 +99,7 @@ namespace ProjectEcho.Editor
             player.equipment.sensorMarker.SetActive(false);
 
             var objectives = Node("Objectives", objects);
+            UpgradeDataPrefab();
             foreach (var point in layout.data)
             {
                 var data = Instance<DataPickup>("Mission Data", objectives, point.position + Vector3.up * 0.75f, MakeData);
@@ -236,7 +237,39 @@ namespace ProjectEcho.Editor
                 Paint("Data cartridge", new Color(0.14f, 0.92f, 0.83f), 0.55f), false);
             Shape("Signal", root.transform, Vector3.up * 0.24f, Vector3.one * 0.1f,
                 Paint("Data signal", new Color(0.35f, 1, 0.96f), 0.8f), PrimitiveType.Sphere, false);
+            AddBeacon(root.transform);
             return root.AddComponent<DataPickup>();
+        }
+
+        /// <summary>
+        /// Cột tín hiệu mảnh nhô lên trên bàn ghế để người chơi thấy gói dữ liệu từ xa (playtest: gói nằm sau màn hình,
+        /// tủ chỉ lộ ra ở 2,5–7 m). Dùng lại vật liệu Data signal, không collider, không đổ bóng.
+        /// </summary>
+        private static void AddBeacon(Transform root)
+        {
+            var beacon = Shape(DataBeacon, root, Vector3.up * 0.95f, new Vector3(0.035f, 0.7f, 0.035f),
+                Paint("Data signal", new Color(0.35f, 1, 0.96f), 0.8f), PrimitiveType.Cylinder, false);
+            beacon.GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        }
+
+        private const string DataBeacon = "Beacon";
+
+        /// <summary>Prefab Mission Data đời trước chưa có cột tín hiệu: thêm vào prefab gốc để mọi Level dùng chung.</summary>
+        private static void UpgradeDataPrefab()
+        {
+            string path = $"{Root}/Prefabs/Mission Data.prefab";
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (asset == null || asset.transform.Find(DataBeacon) != null) return;
+            var contents = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                AddBeacon(contents.transform);
+                PrefabUtility.SaveAsPrefabAsset(contents, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(contents);
+            }
         }
 
         private static DataRelay MakeRelay()

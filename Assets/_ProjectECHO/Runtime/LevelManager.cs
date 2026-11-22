@@ -45,6 +45,7 @@ namespace ProjectEcho
             foreach (var target in interactions)
                 if (target is DataPickup data) data.SetCollected(game.Mission.HasData(data.dataId));
             exit.SetOpen(game.Mission.CanExit);
+            relay.SetStage(MissionGuide.StageOf(game.Mission));
         }
     }
 }

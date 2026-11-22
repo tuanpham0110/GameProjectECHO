@@ -23,7 +23,9 @@ namespace ProjectEcho.Editor
             layout.boundaryHeight = 4.7f;
             layout.minColliderSize = 0.3f;
             layout.maxColliderBottom = 2.3f;
-            layout.collisionExclusions = new[] { "light pipe", "Neon", "LED", "spill", "luminous", "Glow", "VentStripe" };
+            layout.collisionExclusions = new[] { "light pipe", "Neon", "LED", "spill", "luminous", "Glow", "VentStripe",
+                // Lá chậu cây cạnh cửa phụ phòng họp chặn TAY ở (-3,3; 0,2) dù NavMesh coi là đi được (playtest 2026-11-22).
+                "faceted leaf", "Plant stem" };
 
             // Sảnh lễ tân (logo AETHER) là điểm xâm nhập; Hunter khởi động ở dải trống phía bắc phòng server.
             // Dải sàn bên ngoài tường bao không có cửa nối vào tòa nhà nên không đặt gameplay ở đó.

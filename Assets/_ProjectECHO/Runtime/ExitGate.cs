@@ -9,7 +9,7 @@ namespace ProjectEcho
         public GameObject openIndicator;
         public Transform passage;
         public bool IsOpen { get; private set; }
-        public override string Prompt => IsOpen ? "Thoát khỏi khu vực" : "Cổng thoát đang khóa";
+        public override string Prompt => IsOpen ? "Thoát khỏi khu vực" : "Cổng thoát khóa · cần truyền Relay xong";
         public bool HasEntered(Vector3 feet) => passage != null && (feet - passage.position).sqrMagnitude < 0.7f * 0.7f;
         public override void Interact(PlayerController player) => player.Level.game.TryExit();
         public void SetOpen(bool open)

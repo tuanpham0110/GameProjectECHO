@@ -6,6 +6,8 @@ Mở `Assets/_ProjectECHO/Scenes/Office_Level01.unity` rồi nhấn Play. Nếu 
 
 Chọn **Chuẩn bị nhiệm vụ**, chọn **Burst Sprint**, xác nhận rồi bắt đầu. Xuất phát ở sảnh lễ tân (logo AETHER). Nhặt đủ sáu gói dữ liệu bằng F, đến Data Relay ở phía nam phòng server, nhấn F và ở trong vùng tải. Khi cổng mở, quay về cổng cạnh logo AETHER và đi qua cổng.
 
+Dòng mục tiêu ở góc trên trái cho biết chặng hiện tại (1/3, 2/3, 3/3). Ở chặng 2–3, bảng dưới màn hình chỉ đường NavMesh tới Relay hoặc cổng. Ở chặng 1, bật Scanner (T) để xem khoảng cách và hướng của tín hiệu dữ liệu gần nhất. Mô tả vị trí Relay và cổng lấy từ `relayLocation`/`exitLocation` trong `Office_Level01_Rules`.
+
 | Phím | Thao tác |
 | --- | --- |
 | WASD, chuột | Di chuyển, xoay camera |
@@ -55,5 +57,19 @@ Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform EditMode
 Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform PlayMode -testResults PlayMode.xml
 Unity.exe -batchmode -projectPath D:\EchoVerify -executeMethod ProjectEcho.Editor.OfficeLevelTools.BuildWindows -quit
 ```
+
+Playtest tự động bằng input thật (bàn phím/chuột ảo, Hunter thật, ghi `Builds/Validation/Playtest_Office.md`):
+
+```
+Unity.exe -batchmode -projectPath D:\EchoVerify -runTests -testPlatform PlayMode -testFilter OfficePlaythroughTests -testResults Playtest.xml
+```
+
+Đo hiệu năng trong bản build (đo sảnh, phòng server, Relay theo 4 hướng camera; chụp UI; tự thoát sau khoảng 70 s):
+
+```
+Builds\Windows\ProjectECHO.exe -screen-fullscreen 0 -screen-width 1920 -screen-height 1080 -echoPerf -echoPerfOut Builds\Validation\Perf\perf.md
+```
+
+Gói gửi tester: nén `Builds/Windows` (bỏ `ProjectECHO_BurstDebugInformation_DoNotShip`) kèm `Docs/Technical/Playtest/Checklist_NguoiChoiMoi.md`.
 
 Lưu ý: một Unity batch khởi động khi Editor khác đang mở có thể tắt tiến trình IL Post Processing runner dùng chung. Editor đang mở sẽ tự khởi động lại runner khi biên dịch.
