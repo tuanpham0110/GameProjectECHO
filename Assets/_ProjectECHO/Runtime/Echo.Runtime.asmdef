@@ -1,5 +1,5 @@
 {
-  "name": "Echo.Runtime",
-  "rootNamespace": "ProjectEcho",
-  "references": ["Unity.InputSystem", "Unity.Cinemachine", "Unity.AI.Navigation", "UnityEngine.UI"]
+    "name": "Echo.Runtime",
+    "rootNamespace": "ProjectEcho",
+    "references": ["Unity.InputSystem", "Unity.Cinemachine", "Unity.AI.Navigation", "UnityEngine.UI"]
 }

@@ -228,8 +228,8 @@ namespace ProjectEcho
             }
             float check = Level.hunter.profile.relativeHideCheckSeconds;
             HidePrompt = $"Nấp sau vật cản · {Mathf.FloorToInt(HiddenSeconds)} s" +
-                         (HiddenSeconds >= check ? " · Hunter có thể tới kiểm tra" : HiddenSeconds >= check - 10 ? $" · Hunter kiểm tra sau {Mathf.CeilToInt(check - HiddenSeconds)} s" : "") +
-                         "    C  Ra";
+                (HiddenSeconds >= check ? " · Hunter có thể tới kiểm tra" : HiddenSeconds >= check - 10 ? $" · Hunter kiểm tra sau {Mathf.CeilToInt(check - HiddenSeconds)} s" : "") +
+                "    C  Ra";
         }
 
         public void OnCaptured()

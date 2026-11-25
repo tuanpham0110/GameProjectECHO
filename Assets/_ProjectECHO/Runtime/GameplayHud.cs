@@ -300,8 +300,8 @@ namespace ProjectEcho
                     subheading.text = won
                         ? $"Đã thoát, còn {MissionGuide.Clock(game.Timer.Remaining)}  ·  bị bắt {game.Captures} lần."
                         : $"Hết giờ với {result.ValidData}/{result.RequiredData} dữ liệu" +
-                          (result.Relay == RelayState.Complete ? ", đã truyền xong nhưng chưa tới cổng." : result.Relay == RelayState.Transmitting
-                              ? $", Relay {Mathf.FloorToInt(result.RelayProgress * 100)}%." : ".") + $"  Bị bắt {game.Captures} lần.";
+                            (result.Relay == RelayState.Complete ? ", đã truyền xong nhưng chưa tới cổng." : result.Relay == RelayState.Transmitting
+                                ? $", Relay {Mathf.FloorToInt(result.RelayProgress * 100)}%." : ".") + $"  Bị bắt {game.Captures} lần.";
                     AddButton(card, -186, "Chuẩn bị lượt mới", game.OpenBriefing);
                     AddButton(card, -250, "Về menu chính", game.OpenMainMenu);
                     break;

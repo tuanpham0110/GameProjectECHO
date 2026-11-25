@@ -44,7 +44,7 @@ namespace ProjectEcho
         private int Obstacles => profile.obstructionMask & level.worldMask;
         private bool Arrived => goal.HasValue && !agent.pathPending &&
             (agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 0.25f) ||
-             (!agent.hasPath && (transform.position - goal.Value).sqrMagnitude <= 0.16f));
+                (!agent.hasPath && (transform.position - goal.Value).sqrMagnitude <= 0.16f));
 
         private void Awake()
         {

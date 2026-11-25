@@ -560,8 +560,8 @@ namespace ProjectEcho.Editor
             var path = new NavMeshPath();
             string label = target.parent != null && target.name is "Outside" ? target.parent.name : target.name;
             bool ok = NavMesh.SamplePosition(target.position, out var hit, 1.5f, NavMesh.AllAreas) &&
-                      NavMesh.CalculatePath(start, hit.position, NavMesh.AllAreas, path) &&
-                      path.status == NavMeshPathStatus.PathComplete;
+                NavMesh.CalculatePath(start, hit.position, NavMesh.AllAreas, path) &&
+                path.status == NavMeshPathStatus.PathComplete;
             float length = 0;
             if (ok) for (int i = 1; i < path.corners.Length; i++) length += Vector3.Distance(path.corners[i - 1], path.corners[i]);
             report.AppendLine($"| {from} | {label} | {(ok ? "đạt" : "**không có đường**")} | {(ok ? length.ToString("0.0", Invariant) : "–")} |");

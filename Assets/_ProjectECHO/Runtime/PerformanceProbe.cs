@@ -77,9 +77,9 @@ namespace ProjectEcho
             report.AppendLine($"- GPU: {SystemInfo.graphicsDeviceName} ({SystemInfo.graphicsDeviceType}, {SystemInfo.graphicsMemorySize} MB)");
             report.AppendLine($"- CPU: {SystemInfo.processorType} ({SystemInfo.processorCount} luồng), RAM {SystemInfo.systemMemorySize} MB");
             report.AppendLine($"- Chất lượng: {QualitySettings.names[QualitySettings.GetQualityLevel()]}, FrameTimingManager: {(FrameTimingManager.IsFeatureEnabled() ? "bật" : "tắt")}, " +
-                              $"GPU Resident Drawer: {GraphicsSettings.currentRenderPipeline?.GetType().GetProperty("gpuResidentDrawerMode")?.GetValue(GraphicsSettings.currentRenderPipeline)}");
+                $"GPU Resident Drawer: {GraphicsSettings.currentRenderPipeline?.GetType().GetProperty("gpuResidentDrawerMode")?.GetValue(GraphicsSettings.currentRenderPipeline)}");
             report.AppendLine($"- Renderer bật: {FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Count(r => r.enabled)}, " +
-                              $"đổ bóng: {FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Count(r => r.enabled && r.shadowCastingMode != ShadowCastingMode.Off)}");
+                $"đổ bóng: {FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Count(r => r.enabled && r.shadowCastingMode != ShadowCastingMode.Off)}");
             Apply(variants);
             report.AppendLine();
 
