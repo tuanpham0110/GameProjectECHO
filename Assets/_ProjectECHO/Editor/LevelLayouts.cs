@@ -4,7 +4,7 @@ namespace ProjectEcho.Editor
 {
     /// <summary>
     /// Giá trị khởi tạo cho asset LevelLayout. Chỉ dùng khi asset chưa tồn tại; sau đó designer chỉnh trực tiếp asset.
-    /// Tọa độ Office lấy từ số đo trong Docs/Technical/OfficeMap/OfficeMapAnalysis.md (Tools → Analyze Office Map).
+    /// Tọa độ Office đo từ FBX bằng Tools → Analyze Office Map.
     /// </summary>
     internal static class LevelLayouts
     {
@@ -75,7 +75,7 @@ namespace ProjectEcho.Editor
                 new LevelLayout.HidePoint { inside = new Vector3(6.05f, 0, -21.4f), outside = new Vector3(5.2f, 0, -21.4f), absolute = false }
             };
 
-            // Mọi ô cửa trong FBX đều có cánh đang đóng (Docs/Technical/OfficeMap/OfficeDoorways.md): 2 cửa đơn "Door handle"
+            // Mọi ô cửa trong FBX đều có cánh đang đóng: 2 cửa đơn "Door handle"
             // và 12 cửa đôi ghép từ cặp mesh "Cube.0xx" 0,79 m. Ba cửa bắt đầu đóng để tạo điểm nghẽn quanh phòng họp và phòng server.
             layout.doors = new[]
             {
