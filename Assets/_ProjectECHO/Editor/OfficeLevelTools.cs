@@ -93,6 +93,8 @@ namespace ProjectEcho.Editor
             GameObject model = FindOfficeModel();
             if (model == null) problems.Add($"Không tìm được FBX Office trong {OfficeFolder}.");
             else Debug.Log($"Project ECHO: Office FBX hợp lệ tại {AssetDatabase.GetAssetPath(model)}.");
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(CharacterModels.TayModelPath) == null)
+                problems.Add($"Không tìm được model TAY tại {CharacterModels.TayModelPath}; TAY sẽ dùng capsule tạm.");
             if (GraphicsSettings.currentRenderPipeline == null) problems.Add("URP chưa được gán.");
             var layout = Layout(Office);
             var rules = OfficeSceneFactory.Settings<LevelRules>(Office.RulesName);

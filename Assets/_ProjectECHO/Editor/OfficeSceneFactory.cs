@@ -86,6 +86,7 @@ namespace ProjectEcho.Editor
             level.waypoints = waypoints;
             level.navigation = world.GetComponent<NavMeshSurface>();
 
+            CharacterModels.UpgradeTayPrefab($"{Root}/Prefabs/TAY.prefab");
             var player = Instance<PlayerController>("TAY", objects, playerSpawn.position, MakePlayer);
             player.transform.rotation = playerSpawn.rotation;
             var hunter = Instance<HunterBrain>("Hunter", objects, hunterSpawn.position, MakeHunter);
@@ -207,6 +208,7 @@ namespace ProjectEcho.Editor
             light.intensity = 4;
             light.enabled = false;
             player.equipment.scannerLight = light;
+            CharacterModels.AttachTay(player);
             return player;
         }
 

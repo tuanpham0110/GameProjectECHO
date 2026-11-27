@@ -32,6 +32,7 @@ namespace ProjectEcho
         public float HiddenSeconds { get; private set; }
         public bool IsCrouched => motor.height < standingHeight - 0.01f;
         public bool Grounded => motor.isGrounded;
+        public bool IsDashing => dashRemaining > 0;
         public Vector3 Eye => transform.position + Vector3.up * (motor.height - 0.22f);
         public string HidePrompt { get; private set; }
         private void Awake()
